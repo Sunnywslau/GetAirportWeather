@@ -52,7 +52,7 @@ def main():
 
     # Sidebar for user input
     st.sidebar.header("Input Parameters")
-    airport_lookup = load_airport_codes('airport_codes.json')
+    airport_lookup = load_airport_codes('./airport_codes.json')
     
     airport_code = st.sidebar.selectbox("Select Airport Code", [entry['airport'] for entry in airport_lookup])
     utc_input = st.sidebar.text_input("Enter date and time in UTC (YYYY-MM-DD HH:MM)")
