@@ -52,7 +52,7 @@ def main():
 
     # Sidebar for user input
     st.sidebar.header("Input Parameters")
-    airport_lookup = load_airport_codes('./airport_codes.json')
+    airport_lookup = load_airport_codes('./airport_codes.json')  # Updated path
     
     airport_code = st.sidebar.selectbox("Select Airport Code", [entry['airport'] for entry in airport_lookup])
     utc_input = st.sidebar.text_input("Enter date and time in UTC (YYYY-MM-DD HH:MM)")
@@ -90,8 +90,26 @@ def main():
                         'Temperature (°C)': temperatures
                     })
 
-                    # Plotting Pressure and Temperature Charts
-                    st.subheader("Pressure and Temperature Charts")
+                    # Display condensed header information
+                    st.write(f"**Airport Code:** {airport_code} | **Time (UTC):** {utc_input}Z (Local: {local_time.strftime('%Y-%m-%d %H:%M')}L)")
+
+                    # Check if input time exists in the data
+                    input_time_str = local_time.strftime('%Y-%m-%d %H:%M')
+                    if input_time_str in df['Time'].values:
+                        # If found, print values
+                        idx = df[df['Time'] == input_time_str].index[0]
+                        pressure_value = df.at[idx, 'Pressure (hPa)']
+                        temperature_value = df.at[idx, 'Temperature (°C)']
+                        st.write(f"**Temperature:** {temperature_value} °C | **Pressure:** {pressure_value} hPa")
+                    else:
+                        # If not found, find the highest values from the nearest two points
+                        previous_reports, nearest_report, next_reports = find_surrounding_weather_reports(weather_data, local_time)
+                        if previous_reports and next_reports:
+                            highest_pressure = max(previous_reports[-1]['pressure'], next_reports[0]['pressure'])
+                            highest_temperature = max(previous_reports[-1]['temperatureC'], next_reports[0]['temperatureC'])
+                            st.write(f"**Nearest Temperature:** {highest_temperature} °C | **Nearest Pressure:** {highest_pressure} hPa")
+                        else:
+                            st.write("Not enough data to determine nearest values.")
 
                     # Create time range for ±3 hours
                     time_range_start = local_time - timedelta(hours=3)
@@ -101,59 +119,44 @@ def main():
                     filtered_df = df[(pd.to_datetime(df['Time']) >= time_range_start) & 
                                      (pd.to_datetime(df['Time']) <= time_range_end)]
 
+                    # Create two columns for side-by-side charts with increased width
+                    col1, col2 = st.columns([1, 1])  # Equal width for both columns
+
                     # Plotting Pressure
-                    fig, ax1 = plt.subplots(figsize=(10, 5))
-                    ax1.plot(filtered_df['Time'], filtered_df['Pressure (hPa)'], marker='o', label='Pressure (hPa)', color='blue')
+                    with col1:
+                        fig, ax1 = plt.subplots(figsize=(6, 3))  # Increased size
+                        ax1.plot(filtered_df['Time'], filtered_df['Pressure (hPa)'], marker='o', label='Pressure (hPa)', color='blue')
 
-                    ax1.set_xlabel('Time')
-                    ax1.set_ylabel('Pressure (hPa)', color='blue')
-                    ax1.tick_params(axis='y', labelcolor='blue')
+                        ax1.set_xlabel('Time')
+                        ax1.set_ylabel('Pressure (hPa)', color='blue')
+                        ax1.tick_params(axis='y', labelcolor='blue')
 
-                    # Set x-ticks with rotation
-                    plt.xticks(rotation=45)
-                    ax1.set_xticks(filtered_df['Time'])
-                    ax1.set_xticklabels(filtered_df['Time'], rotation=45, ha='right')
-                    
-                    plt.title('Pressure Over Time')
-                    plt.legend()
-                    st.pyplot(fig)
+                        # Set x-ticks with rotation
+                        plt.xticks(rotation=45)
+                        ax1.set_xticks(filtered_df['Time'])
+                        ax1.set_xticklabels(filtered_df['Time'], rotation=45, ha='right')
+                        
+                        plt.title('Pressure Over Time')
+                        plt.legend()
+                        st.pyplot(fig)
 
                     # Plotting Temperature
-                    fig, ax2 = plt.subplots(figsize=(10, 5))
-                    ax2.plot(filtered_df['Time'], filtered_df['Temperature (°C)'], marker='o', label='Temperature (°C)', color='orange')
+                    with col2:
+                        fig, ax2 = plt.subplots(figsize=(6, 3))  # Increased size
+                        ax2.plot(filtered_df['Time'], filtered_df['Temperature (°C)'], marker='o', label='Temperature (°C)', color='orange')
 
-                    ax2.set_xlabel('Time')
-                    ax2.set_ylabel('Temperature (°C)', color='orange')
-                    ax2.tick_params(axis='y', labelcolor='orange')
+                        ax2.set_xlabel('Time')
+                        ax2.set_ylabel('Temperature (°C)', color='orange')
+                        ax2.tick_params(axis='y', labelcolor='orange')
 
-                    # Set x-ticks with rotation
-                    plt.xticks(rotation=45)
-                    ax2.set_xticks(filtered_df['Time'])
-                    ax2.set_xticklabels(filtered_df['Time'], rotation=45, ha='right')
-                    
-                    plt.title('Temperature Over Time')
-                    plt.legend()
-                    st.pyplot(fig)
-
-                    # Check if input time exists in the data
-                    input_time_str = local_time.strftime('%Y-%m-%d %H:%M')
-                    if input_time_str in df['Time'].values:
-                        # If found, print values
-                        idx = df[df['Time'] == input_time_str].index[0]
-                        pressure_value = df.at[idx, 'Pressure (hPa)']
-                        temperature_value = df.at[idx, 'Temperature (°C)']
-                        st.write(f"Pressure at {input_time_str}: {pressure_value} hPa")
-                        st.write(f"Temperature at {input_time_str}: {temperature_value} °C")
-                    else:
-                        # If not found, find the highest values from the nearest two points
-                        previous_reports, nearest_report, next_reports = find_surrounding_weather_reports(weather_data, local_time)
-                        if previous_reports and next_reports:
-                            highest_pressure = max(previous_reports[-1]['pressure'], next_reports[0]['pressure'])
-                            highest_temperature = max(previous_reports[-1]['temperatureC'], next_reports[0]['temperatureC'])
-                            st.write(f"Input time not found. Highest Pressure from surrounding data: {highest_pressure} hPa")
-                            st.write(f"Highest Temperature from surrounding data: {highest_temperature} °C")
-                        else:
-                            st.write("Not enough data to determine highest values.")
+                        # Set x-ticks with rotation
+                        plt.xticks(rotation=45)
+                        ax2.set_xticks(filtered_df['Time'])
+                        ax2.set_xticklabels(filtered_df['Time'], rotation=45, ha='right')
+                        
+                        plt.title('Temperature Over Time')
+                        plt.legend()
+                        st.pyplot(fig)
 
                 else:
                     st.error("Invalid airport code.")
