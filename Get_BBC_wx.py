@@ -24,6 +24,16 @@ def get_weather_data(airport_code, airport_lookup):
             return response.json(), entry['UTC_to_LTC']
     return None, None
 
+# Function to get TAF for a specific airport code
+def get_taf(airport_code):
+    url = f"https://aviationweather.gov/api/data/taf?ids={airport_code}&time=valid"
+    response = requests.get(url)
+    taf = response.text
+    if taf:
+        return taf
+    else:
+        return f"No TAF found for {airport_code}"
+
 def find_surrounding_weather_reports(weather_data, target_time):
     previous_reports = []
     nearest_report = None
@@ -118,6 +128,11 @@ def main():
 
                     # Display condensed header information
                     st.write(f"**Airport Code:** {airport_code} | **Time (UTC):** {target_time.strftime('%Y-%m-%d %H:%M')}Z (Local: {local_time.strftime('%Y-%m-%d %H:%M')}L)")
+
+                    # Fetch and display TAF
+                    taf_info = get_taf(airport_code)
+                    st.subheader("TAF Information:")
+                    st.text(taf_info)
 
                     # Check if input time exists in the data
                     input_time_str = local_time.strftime('%Y-%m-%d %H:%M')
