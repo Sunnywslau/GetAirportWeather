@@ -2,7 +2,7 @@
     {"airport": "VHHH", "code": "6301089", "UTC_to_LTC": 8},
     {"airport": "EGLL", "code": "2647216", "UTC_to_LTC": 0},
     {"airport": "EGCC", "code": "6296575", "UTC_to_LTC": 0},
-    {"airport": "EGKK", "code": "6296598", "UTC_to_LTC": 0}
+    {"airport": "EGKK", "code": "6296598", "UTC_to_LTC": 0},
     {"airport": "EHAM", "code": "6296680", "UTC_to_LTC": 1},
     {"airport": "LFPG", "code": "6269554", "UTC_to_LTC": 1},
     {"airport": "LFBO", "code": "6301770", "UTC_to_LTC": 1}, 
