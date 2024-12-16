@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import re  # Import regular expression module
 
 # Load the airport lookup table from a JSON file
 def load_airport_codes(file_path):
@@ -13,6 +14,10 @@ def load_airport_codes(file_path):
 # Function to convert UTC to local time
 def convert_utc_to_local(utc_time, offset):
     return utc_time + timedelta(hours=offset)
+
+# Function to convert local time to UTC
+def convert_local_to_utc(local_time, offset):
+    return local_time - timedelta(hours=offset)
 
 # Function to get weather data for a specific airport code
 def get_weather_data(airport_code, airport_lookup):
@@ -72,20 +77,22 @@ def main():
     airport_lookup = load_airport_codes('./airport_codes.json')  # Updated path
     
     # Input for airport code
-    airport_code = st.sidebar.text_input("Enter Airport Code", "")
-    utc_input = st.sidebar.text_input("Enter time in UTC (HHmm or HH:mm)", "")
+    airport_code = st.sidebar.text_input("Enter Airport Code", "").upper()  # Convert to uppercase
+    utc_input = st.sidebar.text_input("Enter time in UTC (HHMM)", "")
     
     if st.sidebar.button("Get Weather Data"):
         if utc_input and airport_code:
+            # Validate input format for HHMM
+            if not re.match(r'^\d{4}$', utc_input):
+                st.warning("Please enter the time in the format HHMM (e.g., 1530 for 3:30 PM).")
+                return
+            
             try:
                 # Determine the current UTC date
                 current_utc_time = datetime.utcnow()
                 
                 # Parse the input time
-                if ':' in utc_input:
-                    input_time = datetime.strptime(utc_input, "%H:%M")
-                else:
-                    input_time = datetime.strptime(utc_input, "%H%M")
+                input_time = datetime.strptime(utc_input, "%H%M")
 
                 # Create the full UTC datetime
                 if (input_time.hour < current_utc_time.hour) or \
@@ -103,6 +110,19 @@ def main():
                 if weather_data:
                     # Convert UTC to local time
                     local_time = convert_utc_to_local(target_time, utc_offset)
+
+                    # Extract location name and last update
+                    location_name = weather_data['location']['name']
+                    last_update = weather_data['lastUpdated']
+
+                    # Handle different formats for last update time
+                    try:
+                        last_update_time_local = datetime.fromisoformat(last_update[:-1])  # Remove 'Z'
+                    except ValueError:
+                        last_update_time_local = datetime.strptime(last_update, "%Y-%m-%dT%H:%M:%S.%f%z")
+
+                    # Convert last update time to UTC
+                    last_update_time_utc = convert_local_to_utc(last_update_time_local, utc_offset)
 
                     # Find surrounding weather reports
                     previous_reports, nearest_report, next_reports = find_surrounding_weather_reports(weather_data, local_time)
@@ -126,8 +146,8 @@ def main():
                         'Temperature (°C)': temperatures
                     })
 
-                    # Display condensed header information
-                    st.write(f"**Airport Code:** {airport_code} | **Time (UTC):** {target_time.strftime('%Y-%m-%d %H:%M')}Z (Local: {local_time.strftime('%Y-%m-%d %H:%M')}L)")
+                    # Display header information
+                    st.write(f"**Airport Code:** {airport_code} | **Location:** {location_name} | **Time (UTC):** {target_time.strftime('%Y-%m-%d %H:%M')}Z (Local: {local_time.strftime('%Y-%m-%d %H:%M')}L)")
 
                     # Fetch and display TAF
                     taf_info = get_taf(airport_code)
@@ -209,10 +229,13 @@ def main():
                             plt.legend()
                             st.pyplot(fig)
 
+                    # Display last update information at the bottom right
+                    st.markdown(f"<div style='text-align: right;'>**Last Updated (UTC):** {last_update_time_utc.strftime('%Y-%m-%d %H:%M')}</div>", unsafe_allow_html=True)
+
                 else:
                     st.error("Invalid airport code.")
             except ValueError as e:
-                st.error(f"Invalid time format. Please use HHmm or HH:mm. Error: {e}")
+                st.error(f"Invalid time format. Please use HHMM. Error: {e}")
 
 if __name__ == "__main__":
     main()
