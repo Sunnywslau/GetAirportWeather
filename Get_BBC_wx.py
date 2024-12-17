@@ -68,6 +68,55 @@ def find_surrounding_weather_reports(weather_data, target_time):
 
     return previous_reports, nearest_report, next_reports
 
+
+def display_taf_info(taf_text):
+    st.subheader("TAF Information:")
+    
+    # Replace newlines with HTML line breaks to preserve formatting
+    taf_text = taf_text.replace('\n', '<br>')
+    
+    # Define regex patterns for visibility, cloud ceiling, unmeasured visibility, and freezing conditions
+    visibility_pattern = r'(?<=\s)(\d{4})(?=\s|<br>)'  # 4-digit visibility
+    cloud_ceiling_pattern = r'(?<!\S)\b(BKN|OVC)(\d{3})\b(?=\s|<br>)'  # BKN/OVC with 3-digit height
+    unmeasured_visibility_pattern = r'(?<!\S)\bVV///\b(?=\s|<br>)'  # Match VV/// not preceded by any item
+    freezing_conditions_pattern = r'(?<!\S)([-+]?FZ(?:DZ|RA))(?=\s|<br>)'  # Match freezing conditions
+
+    # Function to replace visibility with highlighted version
+    def highlight_visibility(match):
+        visibility = match.group(0)
+        visibility_meters = int(visibility)
+        if visibility_meters < 3000:
+            return f"<span style='color: red; font-weight: bold;'>{visibility}</span>"
+        return visibility
+
+    # Function to replace cloud ceiling with highlighted version
+    def highlight_cloud_ceiling(match):
+        cloud_type = match.group(1)  # BKN or OVC
+        height = int(match.group(2)) * 100  # Convert 3-digit height to feet
+        if height < 1000:
+            return f"<span style='color: pink; font-weight: bold;'>{cloud_type}{match.group(2)}</span>"
+        return match.group(0)  # Return original if not below 1000
+
+    # Function to highlight unmeasured visibility
+    def highlight_unmeasured_visibility(match):
+        return "<span style='color: purple; font-weight: bold;'>VV///</span>"
+
+    # Function to highlight freezing conditions
+    def highlight_freezing_conditions(match):
+        return f"<span style='color: blue; font-weight: bold;'>{match.group(0)}</span>"
+
+    # Use re.sub to replace visibility values
+    highlighted_taf = re.sub(visibility_pattern, highlight_visibility, taf_text)
+    # Use re.sub to replace cloud ceiling values
+    highlighted_taf = re.sub(cloud_ceiling_pattern, highlight_cloud_ceiling, highlighted_taf)
+    # Use re.sub to highlight unmeasured visibility
+    highlighted_taf = re.sub(unmeasured_visibility_pattern, highlight_unmeasured_visibility, highlighted_taf)
+    # Use re.sub to highlight freezing conditions
+    highlighted_taf = re.sub(freezing_conditions_pattern, highlight_freezing_conditions, highlighted_taf)
+    
+    # Display the entire TAF with highlighted visibility, cloud ceiling, unmeasured visibility, and freezing conditions
+    st.markdown(highlighted_taf, unsafe_allow_html=True)
+
 # Main Streamlit Application
 def main():
     st.title("Weather Dashboard")
@@ -151,8 +200,9 @@ def main():
 
                     # Fetch and display TAF
                     taf_info = get_taf(airport_code)
-                    st.subheader("TAF Information:")
-                    st.text(taf_info)
+                    display_taf_info(taf_info)
+                    #st.subheader("TAF Information:")
+                    #st.text(taf_info)
 
                     # Check if input time exists in the data
                     input_time_str = local_time.strftime('%Y-%m-%d %H:%M')
