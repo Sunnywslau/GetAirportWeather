@@ -10,7 +10,8 @@ def display_taf_info(taf_text):
     # Define regex patterns for visibility, cloud ceiling, unmeasured visibility, and freezing conditions
     visibility_pattern = r'(?<=\s)(\d{4})(?=\s|<br>)'  # 4-digit visibility
     cloud_ceiling_pattern = r'(?<!\S)\b(BKN|OVC)(\d{3})\b(?=\s|<br>)'  # BKN/OVC with 3-digit height
-    unmeasured_visibility_pattern = r'(?<!\S)\bVV///\b(?=\s|<br>)'  # Match VV/// not preceded by any item
+    #unmeasured_visibility_pattern = r'(?<!\S)\bVV///\b(?=\s|<br>)'  # Match VV/// not preceded by any item
+    unmeasured_visibility_pattern = r'(?<!\S)(VV///)(?=\s|<br>)'  # Simplified capturing group
     freezing_conditions_pattern = r'(?<!\S)([-+]?FZ(?:DZ|RA))(?=\s|<br>)'  # Match freezing conditions
 
     # Function to highlight visibility
