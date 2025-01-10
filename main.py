@@ -36,7 +36,7 @@ def main():
                 if target_time < current_utc_time:
                     target_time += timedelta(days=1)  # Input time has already passed today
 
-                weather_data, utc_offset = get_weather_data(airport_code, airport_lookup)
+                weather_data, utc_offset, location_code = get_weather_data(airport_code, airport_lookup)  # Capture location_code
 
                 if weather_data:
                     local_time = convert_utc_to_local(target_time, utc_offset)
@@ -58,6 +58,8 @@ def main():
                                  f"**Time (UTC):** {target_time.strftime('%Y-%m-%d %H:%M')}Z "
                                  f"**Local:** {local_time.strftime('%Y-%m-%d %H:%M')}L", unsafe_allow_html=True)
 
+                        
+                        
                         # Fetch and display TAF
                         taf_info = get_taf(airport_code)
                         display_taf_info(taf_info)
@@ -107,6 +109,8 @@ def main():
                                 else:
                                     st.write("Not enough data to determine nearest values.")
                                 return
+                        # Add WX Details link after temperature and pressure
+                        st.markdown(f"[Details in BBC Weather](https://www.bbc.com/weather/{location_code})", unsafe_allow_html=True)
 
                         # Create time range for ±3 hours
                         time_range_start = local_time - timedelta(hours=3)
