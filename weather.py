@@ -7,8 +7,8 @@ def get_weather_data(airport_code, airport_lookup):
             location_code = entry['code']
             url = f"https://weather-broker-cdn.api.bbci.co.uk/en/forecast/aggregated/{location_code}"
             response = requests.get(url)
-            return response.json(), entry['UTC_to_LTC']
-    return None, None
+            return response.json(), entry['UTC_to_LTC'], location_code  # Return location_code
+    return None, None, None  # Update to return None for location_code
 
 def get_taf(airport_code):
     url = f"https://aviationweather.gov/api/data/taf?ids={airport_code}&time=valid"
