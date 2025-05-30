@@ -21,5 +21,6 @@
     {"airport": "VABB", "code": "6301032", "UTC_to_LTC": 5.5},
     {"airport": "VOHS", "code": "7729997", "UTC_to_LTC": 5.5},
     {"airport": "VOMM", "code": "6301127", "UTC_to_LTC": 5.5},
-    {"airport": "VCBI", "code": "1277333", "UTC_to_LTC": 5.5}
+    {"airport": "VCBI", "code": "1277333", "UTC_to_LTC": 5.5},
+    {"airport": "YPPH", "code": "2063523", "UTC_to_LTC": 8}
 ]
