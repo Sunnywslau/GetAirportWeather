@@ -23,7 +23,7 @@
     {"airport": "VOMM", "code": "6301127", "UTC_to_LTC": 5.5},
     {"airport": "VCBI", "code": "1277333", "UTC_to_LTC": 5.5},
     {"airport": "YPPH", "code": "2063523", "UTC_to_LTC": 8},
-    {"airport": "PANC", "code": "5879400", "UTC_to_LTC": -8},   
+    {"airport": "PANC", "code": "5879378", "UTC_to_LTC": -8},   
     {"airport": "KLAX", "code": "5368361", "UTC_to_LTC": -7},
     {"airport": "KSFO", "code": "5391959", "UTC_to_LTC": -7},
     {"airport": "CYVR", "code": "6301485", "UTC_to_LTC": -7},
@@ -31,5 +31,11 @@
     {"airport": "KJFK", "code": "5122732", "UTC_to_LTC": -4},
     {"airport": "CYYZ", "code": "6296338", "UTC_to_LTC": -4},
     {"airport": "MMGL", "code": "4005539", "UTC_to_LTC": -6},
-    {"airport": "MMSM", "code": "3530597", "UTC_to_LTC": -6}
+    {"airport": "MMSM", "code": "3530597", "UTC_to_LTC": -6},
+    {"airport": "FAOR", "code": "993800", "UTC_to_LTC": 2},
+    {"airport": "KORD", "code": "4887479", "UTC_to_LTC": -5},
+    {"airport": "KDFW", "code": "4684888", "UTC_to_LTC": -5},
+    {"airport": "KIAH", "code": "4693268", "UTC_to_LTC": -5},
+    {"airport": "KMIA", "code": "4164181", "UTC_to_LTC": -4},
+    {"airport": "KATL", "code": "4180439", "UTC_to_LTC": -4}
 ]
