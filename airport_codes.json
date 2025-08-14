@@ -39,7 +39,9 @@
     {"airport": "KMIA", "code": "4164181", "UTC_to_LTC": -4},
     {"airport": "KATL", "code": "4180439", "UTC_to_LTC": -4},
     {"airport": "KORD", "code": "4930956", "UTC_to_LTC": -5},
-    {"airport": "KDFW", "code": "4684943", "UTC_to_LTC": -5}
+    {"airport": "KDFW", "code": "4684943", "UTC_to_LTC": -5},
+    {"airport": "KBOS", "code": "4930956", "UTC_to_LTC": -4}
 ]
+
 
 
