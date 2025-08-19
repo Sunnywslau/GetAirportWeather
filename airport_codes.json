@@ -46,8 +46,10 @@
     {"airport": "YBBN", "code": "2174003", "UTC_to_LTC": 10},
     {"airport": "YPPH", "code": "2063523", "UTC_to_LTC": 8},
     {"airport": "NZAA", "code": "2193733", "UTC_to_LTC": 12},
-    {"airport": "EBBR", "code": "2800866", "UTC_to_LTC": 2}
+    {"airport": "EBBR", "code": "2800866", "UTC_to_LTC": 2},
+    {"airport": "EDDM", "code": "3208399", "UTC_to_LTC": 2}
 ]
+
 
 
 
