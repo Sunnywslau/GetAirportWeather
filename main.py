@@ -120,35 +120,100 @@ def main():
                         filtered_df = df[(pd.to_datetime(df['Time']) >= time_range_start) & 
                                          (pd.to_datetime(df['Time']) <= time_range_end)]
 
-                        # Create two columns for side-by-side charts
-                        col1, col2 = st.columns([1, 1])  # Equal width for both columns
 
-                        # Plotting Pressure
+                        # --- Enhanced Plotting: Highlight input time and critical points ---
+                        col1, col2 = st.columns([1, 1])
+
+                        # --- Enhanced: Dotted line for input time, critical points logic ---
+                        filtered_times = pd.to_datetime(filtered_df['Time'])
+                        input_time_local = local_time.replace(second=0, microsecond=0)
+                        input_time_str = input_time_local.strftime('%Y-%m-%d %H:%M')
+                        # Find all unique hour slots in filtered_df within the filtered range
+                        hour_slots = sorted(set(t.replace(minute=0, second=0, microsecond=0) for t in filtered_times))
+                        # Find previous and next hour within range and present in filtered_df
+                        prev_hour = max([h for h in hour_slots if h <= input_time_local], default=None)
+                        next_hour = min([h for h in hour_slots if h > input_time_local], default=None)
+                        # Only use prev/next hour if they exist in filtered_df
+                        crit_hours = []
+                        if input_time_local.minute == 0 and input_time_local in hour_slots:
+                            crit_hours = [input_time_local]
+                        else:
+                            if prev_hour is not None and prev_hour in filtered_times.values:
+                                crit_hours.append(prev_hour)
+                            if next_hour is not None and next_hour in filtered_times.values:
+                                crit_hours.append(next_hour)
+                        # Only keep crit_hours that are in filtered_times (exact match)
+                        crit_indices = [filtered_times[filtered_times == h].index[0] for h in crit_hours if h in filtered_times.values]
+                        # Find max temp and min pressure among crit_indices
+                        crit_temp = None
+                        crit_temp_idx = None
+                        crit_press = None
+                        crit_press_idx = None
+                        if crit_indices:
+                            temps = filtered_df.loc[crit_indices]['Temperature (°C)']
+                            presses = filtered_df.loc[crit_indices]['Pressure (hPa)']
+                            crit_temp = temps.max()
+                            crit_temp_idx = temps.idxmax()
+                            crit_press = presses.min()
+                            crit_press_idx = presses.idxmin()
+
+                        # --- Plotting ---
+                        # Dotted line for input time: plot at local time corresponding to user's UTC input
+                        input_time_local_str = local_time.strftime('%Y-%m-%d %H:%M')
+                        # Always show the line if local_time is within the filtered data's time range
+                        show_input_line = False
+                        if not filtered_times.empty:
+                            min_time = filtered_times.min()
+                            max_time = filtered_times.max()
+                            show_input_line = min_time <= local_time <= max_time
+
+                        # Prepare datetime-based x-axis for plotting
+                        filtered_df_dt = filtered_df.copy()
+                        filtered_df_dt['Time_dt'] = pd.to_datetime(filtered_df_dt['Time'])
+
+
+                        # --- Pressure Plot ---
                         with col1:
                             fig, ax1 = plt.subplots(figsize=(6, 3))
-                            ax1.plot(filtered_df['Time'], filtered_df['Pressure (hPa)'], marker='o', label='Pressure (hPa)', color='blue')
+                            ax1.plot(filtered_df_dt['Time_dt'], filtered_df_dt['Pressure (hPa)'], marker='o', label='Pressure (hPa)', color='blue')
+                            # Dotted line for input time (local time, only if in range)
+                            if show_input_line:
+                                ax1.axvline(x=local_time, color='red', linestyle=':', linewidth=2, label='Input Time')
+                            # Highlight min pressure
+                            if crit_press_idx is not None:
+                                ax1.scatter(filtered_df_dt.loc[crit_press_idx]['Time_dt'], filtered_df_dt.loc[crit_press_idx]['Pressure (hPa)'], color='green', marker='v', s=120, label='Min Pressure')
                             ax1.set_xlabel('Time')
                             ax1.set_ylabel('Pressure (hPa)', color='blue')
                             ax1.tick_params(axis='y', labelcolor='blue')
                             plt.xticks(rotation=45)
-                            ax1.set_xticks(filtered_df['Time'])
-                            ax1.set_xticklabels(filtered_df['Time'], rotation=45, ha='right')
+                            ax1.set_xticks(filtered_df_dt['Time_dt'])
+                            ax1.set_xticklabels(filtered_df_dt['Time'], rotation=45, ha='right')
                             plt.title('Pressure Over Time')
-                            plt.legend()
+                            handles, labels = ax1.get_legend_handles_labels()
+                            by_label = dict(zip(labels, handles))
+                            ax1.legend(by_label.values(), by_label.keys())
                             st.pyplot(fig)
 
-                        # Plotting Temperature
+                        # --- Temperature Plot ---
                         with col2:
                             fig, ax2 = plt.subplots(figsize=(6, 3))
-                            ax2.plot(filtered_df['Time'], filtered_df['Temperature (°C)'], marker='o', label='Temperature (°C)', color='orange')
+                            ax2.plot(filtered_df_dt['Time_dt'], filtered_df_dt['Temperature (°C)'], marker='o', label='Temperature (°C)', color='orange')
+                            # Dotted line for input time (local time, only if in range)
+                            if show_input_line:
+                                ax2.axvline(x=local_time, color='red', linestyle=':', linewidth=2, label='Input Time')
+                            # Highlight max temperature
+                            if crit_temp_idx is not None:
+                                ax2.scatter(filtered_df_dt.loc[crit_temp_idx]['Time_dt'], filtered_df_dt.loc[crit_temp_idx]['Temperature (°C)'], color='purple', marker='^', s=120, label='Max Temperature')
                             ax2.set_xlabel('Time')
                             ax2.set_ylabel('Temperature (°C)', color='orange')
                             ax2.tick_params(axis='y', labelcolor='orange')
                             plt.xticks(rotation=45)
-                            ax2.set_xticks(filtered_df['Time'])
-                            ax2.set_xticklabels(filtered_df['Time'], rotation=45, ha='right')
+                            ax2.set_xticks(filtered_df_dt['Time_dt'])
+                            ax2.set_xticklabels(filtered_df_dt['Time'], rotation=45, ha='right')
                             plt.title('Temperature Over Time')
-                            plt.legend()
+                            handles, labels = ax2.get_legend_handles_labels()
+                            by_label = dict(zip(labels, handles))
+                            ax2.legend(by_label.values(), by_label.keys())
                             st.pyplot(fig)
 
                     except ValueError as e:
