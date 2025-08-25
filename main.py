@@ -127,23 +127,14 @@ def main():
                         # --- Enhanced: Dotted line for input time, critical points logic ---
                         filtered_times = pd.to_datetime(filtered_df['Time'])
                         input_time_local = local_time.replace(second=0, microsecond=0)
-                        input_time_str = input_time_local.strftime('%Y-%m-%d %H:%M')
-                        # Find all unique hour slots in filtered_df within the filtered range
-                        hour_slots = sorted(set(t.replace(minute=0, second=0, microsecond=0) for t in filtered_times))
-                        # Find previous and next hour within range and present in filtered_df
-                        prev_hour = max([h for h in hour_slots if h <= input_time_local], default=None)
-                        next_hour = min([h for h in hour_slots if h > input_time_local], default=None)
-                        # Only use prev/next hour if they exist in filtered_df
-                        crit_hours = []
-                        if input_time_local.minute == 0 and input_time_local in hour_slots:
-                            crit_hours = [input_time_local]
-                        else:
-                            if prev_hour is not None and prev_hour in filtered_times.values:
-                                crit_hours.append(prev_hour)
-                            if next_hour is not None and next_hour in filtered_times.values:
-                                crit_hours.append(next_hour)
-                        # Only keep crit_hours that are in filtered_times (exact match)
-                        crit_indices = [filtered_times[filtered_times == h].index[0] for h in crit_hours if h in filtered_times.values]
+                        # Find the closest available data point before and after the input time
+                        prev_idx = filtered_times[filtered_times <= input_time_local].idxmax() if any(filtered_times <= input_time_local) else None
+                        next_idx = filtered_times[filtered_times > input_time_local].idxmin() if any(filtered_times > input_time_local) else None
+                        crit_indices = []
+                        if prev_idx is not None:
+                            crit_indices.append(prev_idx)
+                        if next_idx is not None and next_idx != prev_idx:
+                            crit_indices.append(next_idx)
                         # Find max temp and min pressure among crit_indices
                         crit_temp = None
                         crit_temp_idx = None
