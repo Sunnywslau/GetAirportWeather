@@ -82,28 +82,37 @@ def main():
                             'Temperature (°C)': temperatures
                         })
 
-                        # Check if input time exists in the data
+                        # Conservative logic for both text and plot: if input time matches, use that value; else, use closest before/after and take min pressure, max temperature
                         input_time_str = local_time.strftime('%Y-%m-%d %H:%M')
                         if input_time_str in df['Time'].values:
                             idx = df[df['Time'] == input_time_str].index[0]
                             pressure_value = df.at[idx, 'Pressure (hPa)']
                             temperature_value = df.at[idx, 'Temperature (°C)']
-                            # Format pressure and temperature in bold blue and display last update
                             st.write(f"**Temperature:** <span style='color: blue; font-weight: bold;'>{temperature_value} °C</span> | "
                                      f"**Pressure:** <span style='color: blue; font-weight: bold;'>{pressure_value} hPa</span> "
                                      f"(Last update: {last_update_time_utc.strftime('%Y-%m-%d %H:%M')} UTC)", unsafe_allow_html=True)
+                            crit_indices = [idx]
                         else:
-                            # If not found, check the available data range
-                            if previous_reports and next_reports:
-                                highest_pressure = max(previous_reports[-1]['pressure'], next_reports[0]['pressure'])
-                                highest_temperature = max(previous_reports[-1]['temperatureC'], next_reports[0]['temperatureC'])
-                                st.write(f"**Nearest Temperature:** <span style='color: blue; font-weight: bold;'>{highest_temperature} °C</span> | "
-                                         f"**Nearest Pressure:** <span style='color: blue; font-weight: bold;'>{highest_pressure} hPa</span> "
+                            # Find closest before/after indices
+                            filtered_times = pd.to_datetime(df['Time'])
+                            input_time_local = local_time.replace(second=0, microsecond=0)
+                            prev_idx = filtered_times[filtered_times <= input_time_local].idxmax() if any(filtered_times <= input_time_local) else None
+                            next_idx = filtered_times[filtered_times > input_time_local].idxmin() if any(filtered_times > input_time_local) else None
+                            crit_indices = []
+                            if prev_idx is not None:
+                                crit_indices.append(prev_idx)
+                            if next_idx is not None and next_idx != prev_idx:
+                                crit_indices.append(next_idx)
+                            if crit_indices:
+                                # Conservative: min pressure, max temperature
+                                pressure_value = df.loc[crit_indices]['Pressure (hPa)'].min()
+                                temperature_value = df.loc[crit_indices]['Temperature (°C)'].max()
+                                st.write(f"**Temperature:** <span style='color: blue; font-weight: bold;'>{temperature_value} °C</span> | "
+                                         f"**Pressure:** <span style='color: blue; font-weight: bold;'>{pressure_value} hPa</span> "
                                          f"(Last update: {last_update_time_utc.strftime('%Y-%m-%d %H:%M')} UTC)", unsafe_allow_html=True)
                             else:
                                 earliest_time = df['Time'].min() if not df.empty else None
                                 if earliest_time:
-                                    # Convert earliest_time from local to UTC
                                     earliest_time_utc = convert_local_to_utc(datetime.strptime(earliest_time, '%Y-%m-%d %H:%M'), utc_offset)
                                     st.warning(f"The selected time is outside the available data range. Data is available since {earliest_time_utc.strftime('%Y-%m-%d %H:%M')} UTC.")
                                 else:
@@ -127,19 +136,8 @@ def main():
                         # --- Enhanced: Dotted line for input time, critical points logic ---
                         filtered_times = pd.to_datetime(filtered_df['Time'])
                         input_time_local = local_time.replace(second=0, microsecond=0)
-                        # Find the closest available data point before and after the input time
-                        prev_idx = filtered_times[filtered_times <= input_time_local].idxmax() if any(filtered_times <= input_time_local) else None
-                        next_idx = filtered_times[filtered_times > input_time_local].idxmin() if any(filtered_times > input_time_local) else None
-                        crit_indices = []
-                        if prev_idx is not None:
-                            crit_indices.append(prev_idx)
-                        if next_idx is not None and next_idx != prev_idx:
-                            crit_indices.append(next_idx)
-                        # Find max temp and min pressure among crit_indices
-                        crit_temp = None
-                        crit_temp_idx = None
-                        crit_press = None
-                        crit_press_idx = None
+                        # Use the same crit_indices as above for plotting
+                        crit_temp = crit_temp_idx = crit_press = crit_press_idx = None
                         if crit_indices:
                             temps = filtered_df.loc[crit_indices]['Temperature (°C)']
                             presses = filtered_df.loc[crit_indices]['Pressure (hPa)']
@@ -180,6 +178,18 @@ def main():
                             ax1.set_xticks(filtered_df_dt['Time_dt'])
                             ax1.set_xticklabels(filtered_df_dt['Time'], rotation=45, ha='right')
                             plt.title('Pressure Over Time')
+                            # Disable scientific notation for y-axis
+                            ax1.ticklabel_format(style='plain', axis='y')
+                            # Dynamically set y-axis limits based on data range with margin
+                            y_min = filtered_df_dt['Pressure (hPa)'].min()
+                            y_max = filtered_df_dt['Pressure (hPa)'].max()
+                            y_margin = max(1, int((y_max - y_min) * 0.1))  # 10% margin or at least 1 hPa
+                            ax1.set_ylim(y_min - y_margin, y_max + y_margin)
+                            # Format y-axis as integer using FixedLocator
+                            import matplotlib.ticker as mticker
+                            y_labels = ax1.get_yticks()
+                            ax1.yaxis.set_major_locator(mticker.FixedLocator(y_labels))
+                            ax1.set_yticklabels([f'{int(y):d}' for y in y_labels])
                             handles, labels = ax1.get_legend_handles_labels()
                             by_label = dict(zip(labels, handles))
                             ax1.legend(by_label.values(), by_label.keys())
@@ -202,6 +212,11 @@ def main():
                             ax2.set_xticks(filtered_df_dt['Time_dt'])
                             ax2.set_xticklabels(filtered_df_dt['Time'], rotation=45, ha='right')
                             plt.title('Temperature Over Time')
+                            # Dynamically set y-axis limits based on data range with margin
+                            t_min = filtered_df_dt['Temperature (°C)'].min()
+                            t_max = filtered_df_dt['Temperature (°C)'].max()
+                            t_margin = max(0.5, (t_max - t_min) * 0.1)  # 10% margin or at least 0.5°C
+                            ax2.set_ylim(t_min - t_margin, t_max + t_margin)
                             handles, labels = ax2.get_legend_handles_labels()
                             by_label = dict(zip(labels, handles))
                             ax2.legend(by_label.values(), by_label.keys())
