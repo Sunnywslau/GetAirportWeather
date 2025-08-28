@@ -1,0 +1,31 @@
+{
+  "VHHH": {
+    "magnetic_variation": -3,
+    "departure": [
+      {"preferential": 1, "runway": "07R", "magnetic_direction": 74, "Note": "Night preference"},
+      {"preferential": 2, "runway": "07L", "magnetic_direction": 74, "Note": ""},
+      {"preferential": 3,"runway": "25R", "magnetic_direction": 254, "Note": ""},
+      {"preferential": 4,"runway": "25L", "magnetic_direction": 254, "Note": "Test"}
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "07R", "magnetic_direction": 74, "Note": ""},
+      {"preferential": 2, "runway": "07L", "magnetic_direction": 74, "Note": ""},
+      {"preferential": 3, "runway": "25R", "magnetic_direction": 254, "Note": "Test"},
+      {"preferential": 4, "runway": "25L", "magnetic_direction": 254, "Note": ""}
+    ]
+  },
+  "CYYZ": {
+    "magnetic_variation": -10.0,
+    "departure": [
+      {"preferential": 1, "runway": "15L", "magnetic_direction": 147, "Note": ""},
+      {"preferential": 2, "runway": "33R", "magnetic_direction": 327, "Note": ""},
+      {"preferential": 3, "runway": "05", "magnetic_direction": 57, "Note": "Noise abatement"},
+      {"preferential": 4, "runway": "23", "magnetic_direction": 237, "Note": ""}
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "15L", "magnetic_direction": 147, "Note": ""},
+      {"preferential": 2, "runway": "33R", "magnetic_direction": 327, "Note": ""},
+      {"preferential": 3, "runway": "05", "magnetic_direction": 57, "Note": ""}
+    ]
+  }
+}
