@@ -27,5 +27,23 @@
       {"preferential": 2, "runway": "33R", "magnetic_direction": 327, "Note": ""},
       {"preferential": 3, "runway": "05", "magnetic_direction": 57, "Note": ""}
     ]
+  },
+  "YSSY": {
+    "magnetic_variation": 13.0,
+    "departure": [
+      {"preferential": 1, "runway": "16R", "magnetic_direction": 155, "Note": ""},
+      {"preferential": 2, "runway": "34L", "magnetic_direction": 335, "Note": ""},      
+      {"preferential": 3, "runway": "25", "magnetic_direction": 242, "Note": ""},
+      {"preferential": 4, "runway": "07", "magnetic_direction": 62, "Note": ""}
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "34L", "magnetic_direction": 335, "Note": ""},
+      {"preferential": 2, "runway": "16R", "magnetic_direction": 155, "Note": ""},
+      {"preferential": 3, "runway": "16L", "magnetic_direction": 155, "Note": ""},
+      {"preferential": 4, "runway": "34R", "magnetic_direction": 335, "Note": ""},
+      {"preferential": 5, "runway": "07", "magnetic_direction": 62, "Note": ""},
+      {"preferential": 6, "runway": "25", "magnetic_direction": 242, "Note": ""}      
+    ]
   }
 }
+
