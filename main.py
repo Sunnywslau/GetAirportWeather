@@ -154,12 +154,11 @@ def display_runway_table(runway_list, operation_type, magnetic_variation=0, forc
     # Sort by preferential order (smallest to largest)
     sorted_runways = sorted(runway_list, key=lambda x: x.get('preferential', 999))
     
-    # Check if any runways have notes OR if we're forcing HTML rendering for consistency
-    has_notes = any(runway.get('Note', '').strip() for runway in sorted_runways)
-    use_html_rendering = has_notes or force_html_rendering
-    
     # Determine if we have wind data for additional columns
     has_wind_data = wind_direction is not None and wind_speed is not None
+    
+    # Always use HTML rendering for consistency and proper red color display
+    use_html_rendering = True
     
     if use_html_rendering:
         # For runways with notes, use HTML with tooltips
@@ -173,20 +172,67 @@ def display_runway_table(runway_list, operation_type, magnetic_variation=0, forc
             font-size: 16px;
         }
         .runway-table th {
-            background-color: #f0f2f6;
-            color: #262730;
+            background-color: var(--background-color);
+            color: var(--text-color);
             font-weight: bold;
             padding: 12px 15px;
             text-align: left;
-            border: 1px solid #e6e9ef;
+            border: 1px solid var(--border-color);
             font-size: 16px;
         }
         .runway-table td {
             padding: 10px 15px;
-            border: 1px solid #e6e9ef;
-            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            background-color: var(--background-color);
+            color: var(--text-color);
             font-size: 16px;
             vertical-align: middle;
+        }
+        .runway-table tr:hover {
+            background-color: var(--hover-color);
+        }
+        
+        /* Light mode colors (default) */
+        :root {
+            --background-color: #ffffff;
+            --text-color: #262730;
+            --border-color: #e6e9ef;
+            --hover-color: #f8f9fa;
+            --header-bg-color: #f0f2f6;
+        }
+        
+        /* Dark mode colors */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background-color: #0e1117;
+                --text-color: #fafafa;
+                --border-color: #262730;
+                --hover-color: #262730;
+                --header-bg-color: #262730;
+            }
+        }
+        
+        /* Override for Streamlit dark theme specifically */
+        .stApp[data-theme="dark"] {
+            --background-color: #0e1117;
+            --text-color: #fafafa;
+            --border-color: #262730;
+            --hover-color: #262730;
+            --header-bg-color: #262730;
+        }
+        
+        /* Light theme override */
+        .stApp[data-theme="light"] {
+            --background-color: #ffffff;
+            --text-color: #262730;
+            --border-color: #e6e9ef;
+            --hover-color: #f8f9fa;
+            --header-bg-color: #f0f2f6;
+        }
+        
+        /* Update header styling */
+        .runway-table th {
+            background-color: var(--header-bg-color);
         }
         .runway-table tr:hover {
             background-color: #f8f9fa;
@@ -358,7 +404,7 @@ def display_runway_table(runway_list, operation_type, magnetic_variation=0, forc
         
         st.dataframe(
             df,
-            use_container_width=True,
+            width='stretch',
             hide_index=True,
             column_config=column_config,
             height=35 * len(display_data) + 35
@@ -694,7 +740,7 @@ def main():
                             by_label = dict(zip(labels, handles))
                             ax1.legend(by_label.values(), by_label.keys(), fontsize=7)
                             plt.tight_layout()
-                            st.pyplot(fig, use_container_width=False)
+                            st.pyplot(fig, width='content')
 
                         # Temperature Plot in third column
                         with info_col3:
@@ -724,7 +770,7 @@ def main():
                             by_label = dict(zip(labels, handles))
                             ax2.legend(by_label.values(), by_label.keys(), fontsize=7)
                             plt.tight_layout()
-                            st.pyplot(fig, use_container_width=False)
+                            st.pyplot(fig, width='content')
 
                         # Display Preferential Runway section
                         display_preferential_runway_section(airport_code, utc_input)
