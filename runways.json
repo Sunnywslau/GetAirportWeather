@@ -44,6 +44,26 @@
       {"preferential": 5, "runway": "07", "magnetic_direction": 62, "Note": ""},
       {"preferential": 6, "runway": "25", "magnetic_direction": 242, "Note": ""}      
     ]
+  },
+  "VIDP": {
+    "magnetic_variation": 1.0,
+    "departure": [
+      {"preferential": 1, "runway": "11L", "magnetic_direction": 103, "Note": ""},
+      {"preferential": 2, "runway": "29R", "magnetic_direction": 283, "Note": ""},      
+      {"preferential": 3, "runway": "11R", "magnetic_direction": 103, "Note": ""},
+      {"preferential": 4, "runway": "29L", "magnetic_direction": 283, "Note": ""},
+      {"preferential": 5, "runway": "28", "magnetic_direction": 284, "Note": ""},
+      {"preferential": 6, "runway": "10", "magnetic_direction": 104, "Note": ""}
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "11R", "magnetic_direction": 103, "Note": ""},
+      {"preferential": 2, "runway": "29L", "magnetic_direction": 283, "Note": ""},
+      {"preferential": 3, "runway": "10", "magnetic_direction": 104, "Note": ""},
+      {"preferential": 4, "runway": "11L", "magnetic_direction": 103, "Note": ""},
+      {"preferential": 5, "runway": "28", "magnetic_direction": 284, "Note": ""},
+      {"preferential": 6, "runway": "29R", "magnetic_direction": 283, "Note": ""}
+    ]
   }
 }
+
 
