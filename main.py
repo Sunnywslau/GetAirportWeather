@@ -37,8 +37,14 @@ def calculate_wind_components(wind_direction, wind_speed, runway_heading):
     
     return round(crosswind, 1), round(headwind, 1)
 
-def format_wind_component(value, component_type):
-    """Format wind component for display with red highlighting for dangerous values."""
+def format_wind_component(value, component_type, use_html=True):
+    """Format wind component for display with red highlighting for dangerous values.
+    
+    Args:
+        value: Wind component value in knots
+        component_type: 'crosswind' or 'headwind'
+        use_html: If True, use HTML for dangerous conditions; if False, use plain text
+    """
     if component_type == 'crosswind':
         if abs(value) < 0.1:
             return "0.0C"
@@ -46,7 +52,10 @@ def format_wind_component(value, component_type):
             formatted = f"{abs(value):.1f}C"
             # Highlight crosswind > 30kt in red
             if abs(value) > 30:
-                return f'<span style="color: red; font-weight: bold;">{formatted}</span>'
+                if use_html:
+                    return f'<span style="color: red; font-weight: bold;">{formatted}</span>'
+                else:
+                    return formatted
             else:
                 return formatted
     else:  # headwind/tailwind
@@ -58,7 +67,10 @@ def format_wind_component(value, component_type):
             formatted = f"{abs(value):.1f}T"
             # Highlight tailwind >= 10kt in red
             if abs(value) >= 10:
-                return f'<span style="color: red; font-weight: bold;">{formatted}</span>'
+                if use_html:
+                    return f'<span style="color: red; font-weight: bold;">{formatted}</span>'
+                else:
+                    return formatted
             else:
                 return formatted
 
@@ -290,8 +302,8 @@ def display_runway_table(runway_list, operation_type, magnetic_variation=0, forc
             if has_wind_data and magnetic_direction:
                 true_direction = (magnetic_direction + magnetic_variation) % 360
                 crosswind, headwind = calculate_wind_components(wind_direction, wind_speed, true_direction)
-                crosswind_str = format_wind_component(crosswind, 'crosswind')
-                headwind_str = format_wind_component(headwind, 'headwind')
+                crosswind_str = format_wind_component(crosswind, 'crosswind', use_html=True)
+                headwind_str = format_wind_component(headwind, 'headwind', use_html=True)
                 wind_cell = f'<td style="font-family: monospace; text-align: center; font-size: 16px; vertical-align: middle;">{crosswind_str} / {headwind_str}</td>'
                 html_rows.append(f'<tr><td style="vertical-align: middle;">{runway_cell}</td><td style="font-family: monospace; vertical-align: middle; font-size: 16px;">{direction_display}</td>{wind_cell}</tr>')
             else:
@@ -324,8 +336,8 @@ def display_runway_table(runway_list, operation_type, magnetic_variation=0, forc
             # Add wind components if wind data is available
             if has_wind_data and magnetic_direction:
                 crosswind, headwind = calculate_wind_components(wind_direction, wind_speed, true_direction)
-                crosswind_str = format_wind_component(crosswind, 'crosswind')
-                headwind_str = format_wind_component(headwind, 'headwind')
+                crosswind_str = format_wind_component(crosswind, 'crosswind', use_html=False)
+                headwind_str = format_wind_component(headwind, 'headwind', use_html=False)
                 row_data['Cross/Head Wind'] = f"{crosswind_str} / {headwind_str}"
             elif has_wind_data:
                 row_data['Cross/Head Wind'] = "-"
