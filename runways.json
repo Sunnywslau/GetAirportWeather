@@ -21,10 +21,10 @@
   "CYYZ": {
     "magnetic_variation": -10.0,
     "departure": [
-      {"preferential": 1, "runway": "15L", "magnetic_direction": 147, "Note": ""},
-      {"preferential": 2, "runway": "33R", "magnetic_direction": 327, "Note": ""},
-      {"preferential": 3, "runway": "05", "magnetic_direction": 57, "Note": "Noise abatement"},
-      {"preferential": 4, "runway": "23", "magnetic_direction": 237, "Note": ""}
+      {"preferential": 1, "runway": "15L", "magnetic_direction": 147, "Note": "Not preferred during curfew period"},
+      {"preferential": 2, "runway": "33R", "magnetic_direction": 327, "Note": "Preferred RWY 0000 to 0630 LT"},
+      {"preferential": 3, "runway": "05", "magnetic_direction": 57, "Note": "Not preferred during curfew period"},
+      {"preferential": 4, "runway": "23", "magnetic_direction": 237, "Note": "Preferred RWY 0000 to 0630 LT"}
     ],
     "arrival": [
       {"preferential": 1, "runway": "15L", "magnetic_direction": 147, "Note": ""},
@@ -136,6 +136,7 @@
     ]
   }
 }
+
 
 
 
