@@ -97,8 +97,20 @@
       {"preferential": 5, "runway": "28", "magnetic_direction": 284, "Note": ""},
       {"preferential": 6, "runway": "29R", "magnetic_direction": 283, "Note": ""}
     ]
+  },
+  "VABB": {
+    "magnetic_variation": -1.0,
+    "departure": [
+      {"preferential": 1, "runway": "27", "magnetic_direction": 270, "Note": ""},
+      {"preferential": 2, "runway": "0", "magnetic_direction": 90, "Note": ""}      
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "27", "magnetic_direction": 270, "Note": ""},
+      {"preferential": 2, "runway": "0", "magnetic_direction": 90, "Note": ""}
+    ]
   }
 }
+
 
 
 
