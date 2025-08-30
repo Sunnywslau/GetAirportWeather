@@ -102,14 +102,30 @@
     "magnetic_variation": -1.0,
     "departure": [
       {"preferential": 1, "runway": "27", "magnetic_direction": 270, "Note": ""},
-      {"preferential": 2, "runway": "0", "magnetic_direction": 90, "Note": ""}      
+      {"preferential": 2, "runway": "9", "magnetic_direction": 90, "Note": ""}      
     ],
     "arrival": [
       {"preferential": 1, "runway": "27", "magnetic_direction": 270, "Note": ""},
-      {"preferential": 2, "runway": "0", "magnetic_direction": 90, "Note": ""}
+      {"preferential": 2, "runway": "9", "magnetic_direction": 90, "Note": ""}
+    ]
+  },
+  "VOBL": {
+    "magnetic_variation": -2.0,
+    "departure": [
+      {"preferential": 1, "runway": "09R", "magnetic_direction": 92, "Note": ""},
+      {"preferential": 2, "runway": "09L", "magnetic_direction": 92, "Note": ""},
+      {"preferential": 3, "runway": "27R", "magnetic_direction": 272, "Note": ""},
+      {"preferential": 4, "runway": "27L", "magnetic_direction": 272, "Note": ""}    
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "09L", "magnetic_direction": 92, "Note": ""},
+      {"preferential": 2, "runway": "27L", "magnetic_direction": 272, "Note": ""},
+      {"preferential": 3, "runway": "09R", "magnetic_direction": 92, "Note": ""},
+      {"preferential": 4, "runway": "27R", "magnetic_direction": 272, "Note": ""}
     ]
   }
 }
+
 
 
 
