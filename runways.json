@@ -32,6 +32,21 @@
       {"preferential": 3, "runway": "05", "magnetic_direction": 57, "Note": ""}
     ]
   },
+  "YBBN": {
+    "magnetic_variation": 11.0,
+    "departure": [
+      {"preferential": 1, "runway": "19L", "magnetic_direction": 196, "Note": ""},
+      {"preferential": 2, "runway": "01R", "magnetic_direction": 16, "Note": ""},      
+      {"preferential": 3, "runway": "19R", "magnetic_direction": 196, "Note": ""},
+      {"preferential": 4, "runway": "01L", "magnetic_direction": 16, "Note": ""}
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "19L", "magnetic_direction": 196, "Note": ""},
+      {"preferential": 2, "runway": "19R", "magnetic_direction": 196, "Note": ""},
+      {"preferential": 3, "runway": "01L", "magnetic_direction": 16, "Note": ""},
+      {"preferential": 4, "runway": "01R", "magnetic_direction": 16, "Note": ""} 
+    ]
+  },
   "YSSY": {
     "magnetic_variation": 13.0,
     "departure": [
@@ -84,6 +99,7 @@
     ]
   }
 }
+
 
 
 
