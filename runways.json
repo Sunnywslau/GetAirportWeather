@@ -79,6 +79,21 @@
       {"preferential": 4, "runway": "09", "magnetic_direction": 83, "Note": "Short RWY 7500FT"} 
     ]
   },
+  "YPPH": {
+    "magnetic_variation": -2.0,
+    "departure": [
+      {"preferential": 1, "runway": "03", "magnetic_direction": 16, "Note": ""},
+      {"preferential": 2, "runway": "21", "magnetic_direction": 196, "Note": ""},      
+      {"preferential": 3, "runway": "06", "magnetic_direction": 61, "Note": "Short RWY 7096FT"},
+      {"preferential": 4, "runway": "24", "magnetic_direction": 241, "Note": "Short RWY 7096FT"}
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "03", "magnetic_direction": 16, "Note": ""},
+      {"preferential": 2, "runway": "21", "magnetic_direction": 196, "Note": ""},      
+      {"preferential": 3, "runway": "06", "magnetic_direction": 61, "Note": "Short RWY 7096FT"},
+      {"preferential": 4, "runway": "24", "magnetic_direction": 241, "Note": "Short RWY 7096FT"}
+    ]
+  },
   "VIDP": {
     "magnetic_variation": 1.0,
     "departure": [
@@ -136,6 +151,7 @@
     ]
   }
 }
+
 
 
 
