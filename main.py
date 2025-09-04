@@ -81,11 +81,11 @@ def display_preferential_runway_section(airport_code, utc_input):
             return  # Silently skip if airport not found
         
         # Display the section
-        st.markdown("---")
-        st.markdown(f"## Preferential Runway for {code}")
+        st.markdown('<hr style="margin: 10px 0 5px 0; border: 1px solid #e0e0e0;">', unsafe_allow_html=True)
+        st.markdown(f'<h2 style="margin: 5px 0 10px 0; font-size: 1.75rem; font-weight: 600;">Preferential Runway for {code}</h2>', unsafe_allow_html=True)
         
         # Wind component input
-        st.markdown("#### Wind Component Analysis (Optional)")
+        st.markdown('<h4 style="margin: 5px 0 8px 0; font-size: 1.1rem;">Wind Component Analysis (Optional)</h4>', unsafe_allow_html=True)
         col1, col2 = st.columns([2, 2])
         with col1:
             # Create a unique key based on current airport code and time to force reset
@@ -132,14 +132,12 @@ def display_preferential_runway_section(airport_code, utc_input):
         col1, col2 = st.columns(2)
         
         with col1:
-            st.markdown("### Departure")
             if dep:
                 display_runway_table(dep, "departure", magnetic_variation, force_html_rendering, wind_direction, wind_speed)
             else:
                 st.info("No departure runway information available.")
         
         with col2:
-            st.markdown("### Arrival")
             if arr:
                 display_runway_table(arr, "arrival", magnetic_variation, force_html_rendering, wind_direction, wind_speed)
             else:
@@ -309,10 +307,14 @@ def display_runway_table(runway_list, operation_type, magnetic_variation=0, forc
         
         # Build HTML table with hover tooltips
         html_rows = ['<table class="runway-table">']
+        
+        # Determine column header based on operation type
+        runway_header = "Departure RWY" if operation_type == "departure" else "Arrival RWY"
+        
         if has_wind_data:
-            html_rows.append('<thead><tr><th>Runway</th><th>Direction</th><th>Cross/Head Wind</th></tr></thead>')
+            html_rows.append(f'<thead><tr><th>{runway_header}</th><th>Direction</th><th style="text-align: left;">Cross/Head Wind</th></tr></thead>')
         else:
-            html_rows.append('<thead><tr><th>Runway</th><th>Direction</th></tr></thead>')
+            html_rows.append(f'<thead><tr><th>{runway_header}</th><th>Direction</th></tr></thead>')
         html_rows.append('<tbody>')
         
         for runway in sorted_runways:
@@ -338,11 +340,11 @@ def display_runway_table(runway_list, operation_type, magnetic_variation=0, forc
                 crosswind, headwind = calculate_wind_components(wind_direction, wind_speed, true_direction)
                 crosswind_str = format_wind_component(crosswind, 'crosswind')
                 headwind_str = format_wind_component(headwind, 'headwind')
-                wind_cell = f'<td style="font-family: monospace; text-align: center; font-size: 16px; vertical-align: middle;">{crosswind_str} / {headwind_str}</td>'
+                wind_cell = f'<td style="font-family: monospace; text-align: left; font-size: 16px; vertical-align: middle;">{crosswind_str} / {headwind_str}</td>'
                 html_rows.append(f'<tr><td style="vertical-align: middle;">{runway_cell}</td><td style="font-family: monospace; vertical-align: middle; font-size: 16px;">{direction_display}</td>{wind_cell}</tr>')
             else:
                 if has_wind_data:
-                    html_rows.append(f'<tr><td style="vertical-align: middle;">{runway_cell}</td><td style="font-family: monospace; vertical-align: middle; font-size: 16px;">{direction_display}</td><td style="font-size: 16px; text-align: center; vertical-align: middle;">-</td></tr>')
+                    html_rows.append(f'<tr><td style="vertical-align: middle;">{runway_cell}</td><td style="font-family: monospace; vertical-align: middle; font-size: 16px;">{direction_display}</td><td style="font-size: 16px; text-align: left; vertical-align: middle;">-</td></tr>')
                 else:
                     html_rows.append(f'<tr><td style="vertical-align: middle;">{runway_cell}</td><td style="font-family: monospace; vertical-align: middle; font-size: 16px;">{direction_display}</td></tr>')
         
@@ -564,15 +566,6 @@ def main():
                             last_update_time_utc = datetime.fromisoformat(last_update)  # Directly parse with offset
                             last_update_time_utc = last_update_time_utc.astimezone(timezone.utc)
                         
-                        # Display header information (enhanced for wide screen)
-                        st.markdown(f"""
-                        <div style="font-size: 18px; margin: 10px 0;">
-                            <strong>Airport Code:</strong> {airport_code} | <strong>Location:</strong> {location_name}<br>
-                            <strong>Time (UTC):</strong> {target_time.strftime('%Y-%m-%d %H:%M')}Z 
-                            <strong>Local:</strong> {local_time.strftime('%Y-%m-%d %H:%M')}L
-                        </div>
-                        """, unsafe_allow_html=True)
-
                         # Prepare data for plotting
                         previous_reports, nearest_report, next_reports = find_surrounding_weather_reports(weather_data, local_time)
                         all_reports = previous_reports + [nearest_report] + next_reports
@@ -597,25 +590,6 @@ def main():
                             idx = df[df['Time'] == input_time_str].index[0]
                             pressure_value = df.at[idx, 'Pressure (hPa)']
                             temperature_value = df.at[idx, 'Temperature (°C)']
-                            
-                            # Display temperature/pressure and BBC link in a compact table format
-                            st.markdown(f"""
-                            <table style="width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 16px;">
-                                <tr>
-                                    <td style="background-color: #f0f2f6; padding: 15px; border-radius: 5px 0 0 5px; border: 1px solid #e6e9ef; width: 70%;">
-                                        <strong>Temperature:</strong> <span style='color: blue; font-weight: bold; font-size: 20px;'>{temperature_value} °C</span> | 
-                                        <strong>Pressure:</strong> <span style='color: blue; font-weight: bold; font-size: 20px;'>{pressure_value} hPa</span>
-                                        <br><span style="font-size: 14px; color: #666;">(Last update: {last_update_time_utc.strftime('%Y-%m-%d %H:%M')} UTC)</span>
-                                    </td>
-                                    <td style="background-color: #e8f4fd; padding: 15px; border-radius: 0 5px 5px 0; border: 1px solid #e6e9ef; text-align: center; width: 30%;">
-                                        <a href="https://www.bbc.com/weather/{location_code}" target="_blank" 
-                                           style="font-size: 14px; font-weight: bold; text-decoration: none; color: #1f77b4;">
-                                           📊 BBC Weather
-                                        </a>
-                                    </td>
-                                </tr>
-                            </table>
-                            """, unsafe_allow_html=True)
                             crit_indices = [idx]
                         else:
                             # Find closest before/after indices
@@ -632,36 +606,161 @@ def main():
                                 # Conservative: min pressure, max temperature
                                 pressure_value = df.loc[crit_indices]['Pressure (hPa)'].min()
                                 temperature_value = df.loc[crit_indices]['Temperature (°C)'].max()
-                                
-                                # Display temperature/pressure and BBC link in a compact table format
-                                st.markdown(f"""
-                                <table style="width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 16px;">
+                            else:
+                                pressure_value = None
+                                temperature_value = None
+
+                        # Display all information in a single comprehensive table
+                        if pressure_value is not None and temperature_value is not None:
+                            st.markdown(f"""
+                            <style>
+                            .info-table {{
+                                width: 100%;
+                                max-width: 1100px;
+                                border-collapse: collapse;
+                                margin: 5px 0;
+                                font-family: 'Source Sans Pro', sans-serif;
+                                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                                border-radius: 8px;
+                                overflow: hidden;
+                            }}
+                            .info-table th {{
+                                background: linear-gradient(135deg, #007acc 0%, #005a9e 100%);
+                                color: white;
+                                font-weight: 600;
+                                padding: 8px 16px;
+                                text-align: center;
+                                font-size: 16px;
+                                border: none;
+                            }}
+                            .info-table td {{
+                                padding: 8px 16px;
+                                border: none;
+                                vertical-align: middle;
+                                font-size: 16px;
+                                text-align: center;
+                                background-color: var(--background-color, #ffffff);
+                                color: var(--text-color, #262730);
+                            }}
+                            .info-table .airport-cell {{
+                                text-align: left;
+                                width: 220px;
+                            }}
+                            .info-table .time-cell {{
+                                width: 200px;
+                            }}
+                            .info-table .temp-cell {{
+                                width: 140px;
+                            }}
+                            .info-table .pressure-cell {{
+                                width: 180px;
+                            }}
+                            .info-table .weather-cell {{
+                                width: 140px;
+                                background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+                            }}
+                            .airport-code {{
+                                color: #007acc;
+                                font-weight: bold;
+                                font-size: 18px;
+                            }}
+                            .location-name {{
+                                color: #6c757d;
+                                font-size: 15px;
+                                margin-top: 2px;
+                            }}
+                            .time-highlight {{
+                                color: #007acc;
+                                font-weight: bold;
+                                font-size: 16px;
+                            }}
+                            .big-value {{
+                                color: #007acc;
+                                font-weight: bold;
+                                font-size: 20px;
+                            }}
+                            .update-info {{
+                                color: #6c757d;
+                                font-size: 13px;
+                                margin-top: 2px;
+                            }}
+                            .bbc-link {{
+                                color: #1565c0;
+                                text-decoration: none;
+                                font-weight: 600;
+                                font-size: 14px;
+                            }}
+                            .bbc-link:hover {{
+                                color: #0d47a1;
+                            }}
+                            </style>
+                            
+                            <table class="info-table">
+                                <thead>
                                     <tr>
-                                        <td style="background-color: #f0f2f6; padding: 15px; border-radius: 5px 0 0 5px; border: 1px solid #e6e9ef; width: 70%;">
-                                            <strong>Temperature:</strong> <span style='color: blue; font-weight: bold; font-size: 20px;'>{temperature_value} °C</span> | 
-                                            <strong>Pressure:</strong> <span style='color: blue; font-weight: bold; font-size: 20px;'>{pressure_value} hPa</span>
-                                            <br><span style="font-size: 14px; color: #666;">(Last update: {last_update_time_utc.strftime('%Y-%m-%d %H:%M')} UTC)</span>
+                                        <th>Airport</th>
+                                        <th>Time</th>
+                                        <th>Temperature</th>
+                                        <th>Pressure</th>
+                                        <th>Weather</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="airport-cell">
+                                            <div class="airport-code">{airport_code}</div>
+                                            <div class="location-name">{location_name[:35]}{'...' if len(location_name) > 35 else ''}</div>
                                         </td>
-                                        <td style="background-color: #e8f4fd; padding: 15px; border-radius: 0 5px 5px 0; border: 1px solid #e6e9ef; text-align: center; width: 30%;">
-                                            <a href="https://www.bbc.com/weather/{location_code}" target="_blank" 
-                                               style="font-size: 14px; font-weight: bold; text-decoration: none; color: #1f77b4;">
-                                               📊 BBC Weather
+                                        <td class="time-cell">
+                                            <div class="time-highlight">UTC: {target_time.strftime('%Y-%m-%d %H:%M')}</div>
+                                            <div class="time-highlight">Local: {local_time.strftime('%Y-%m-%d %H:%M')}</div>
+                                        </td>
+                                        <td class="temp-cell">
+                                            <span class="big-value">{temperature_value}°C</span>
+                                        </td>
+                                        <td class="pressure-cell">
+                                            <div class="big-value">{pressure_value} hPa</div>
+                                            <div class="update-info">Updated: {last_update_time_utc.strftime('%m-%d %H:%M')}</div>
+                                        </td>
+                                        <td class="weather-cell">
+                                            <a href="https://www.bbc.com/weather/{location_code}" target="_blank" class="bbc-link">
+                                                📊 BBC Weather
                                             </a>
                                         </td>
                                     </tr>
-                                </table>
-                                """, unsafe_allow_html=True)
+                                </tbody>
+                            </table>
+                            """, unsafe_allow_html=True)
+                        else:
+                            # Handle case when no data is available
+                            earliest_time = df['Time'].min() if not df.empty else None
+                            if earliest_time:
+                                earliest_time_utc = convert_local_to_utc(datetime.strptime(earliest_time, '%Y-%m-%d %H:%M'), utc_offset)
+                                st.warning(f"The selected time is outside the available data range. Data is available since {earliest_time_utc.strftime('%Y-%m-%d %H:%M')} UTC.")
                             else:
-                                earliest_time = df['Time'].min() if not df.empty else None
-                                if earliest_time:
-                                    earliest_time_utc = convert_local_to_utc(datetime.strptime(earliest_time, '%Y-%m-%d %H:%M'), utc_offset)
-                                    st.warning(f"The selected time is outside the available data range. Data is available since {earliest_time_utc.strftime('%Y-%m-%d %H:%M')} UTC.")
-                                else:
-                                    st.write("Not enough data to determine nearest values.")
-                                return
+                                st.write("Not enough data to determine nearest values.")
+                            return
 
                         # Fetch and display TAF in a more compact way
                         taf_info = get_taf(airport_code)
+                        
+                        # Add compact styling to reduce spacing
+                        st.markdown("""
+                        <style>
+                        .block-container { padding-top: 2rem; padding-bottom: 0.5rem; }
+                        .main .block-container { max-width: 100%; padding-left: 1rem; padding-right: 1rem; }
+                        div[data-testid="column"] { padding: 0 0.25rem; }
+                        .element-container { margin: 0.1rem 0 !important; }
+                        h1, h2, h3, h4, h5, h6 { margin-top: 0.3rem !important; margin-bottom: 0.3rem !important; }
+                        div[data-testid="stMarkdown"] { margin: 0.2rem 0 !important; }
+                        .stMarkdown { margin: 0.2rem 0 !important; }
+                        div.stPlotlyChart { margin: 0.2rem 0 !important; }
+                        hr { margin: 0.3rem 0 !important; }
+                        div[data-testid="stHorizontalBlock"] { gap: 0.5rem !important; }
+                        /* Ensure main title has enough space */
+                        .main h1:first-of-type { margin-top: 1rem !important; margin-bottom: 1rem !important; }
+                        </style>
+                        """, unsafe_allow_html=True)
                         
                         # Create a three-column layout for better screen utilization
                         # Give TAF more width by using 2:1:1 ratio instead of 1:1:1
@@ -708,8 +807,8 @@ def main():
 
                         # Pressure Plot in second column
                         with info_col2:
-                            st.markdown("### Pressure Over Time")
-                            fig, ax1 = plt.subplots(figsize=(3.5, 2.2))
+                            st.markdown("#### Pressure Over Time", unsafe_allow_html=True)
+                            fig, ax1 = plt.subplots(figsize=(3.5, 1.8))
                             ax1.plot(filtered_df_dt['Time_dt'], filtered_df_dt['Pressure (hPa)'], marker='o', label='Pressure (hPa)', color='blue')
                             # Dotted line for input time (local time, only if in range)
                             if show_input_line:
@@ -744,8 +843,8 @@ def main():
 
                         # Temperature Plot in third column
                         with info_col3:
-                            st.markdown("### Temperature Over Time")
-                            fig, ax2 = plt.subplots(figsize=(3.5, 2.2))
+                            st.markdown("#### Temperature Over Time", unsafe_allow_html=True)
+                            fig, ax2 = plt.subplots(figsize=(3.5, 1.8))
                             ax2.plot(filtered_df_dt['Time_dt'], filtered_df_dt['Temperature (°C)'], marker='o', label='Temperature (°C)', color='orange')
                             # Dotted line for input time (local time, only if in range)
                             if show_input_line:
