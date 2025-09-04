@@ -46,5 +46,9 @@ def display_taf_info(taf_text):
     highlighted_taf = re.sub(freezing_conditions_pattern, highlight_freezing_conditions, highlighted_taf)
     highlighted_taf = re.sub(snow_pattern, highlight_snow, highlighted_taf)  # Add snow highlighting
 
-    # Display the highlighted TAF
-    st.markdown(highlighted_taf, unsafe_allow_html=True)
+    # Display the highlighted TAF with larger font size for wide screen
+    st.markdown(f"""
+    <div style="font-size: 20px; line-height: 1.2; padding: 8px; background-color: #f8f9fa; border-radius: 8px; border-left: 4px solid #007acc; font-family: 'Courier New', monospace; margin: 5px 0;">
+        {highlighted_taf}
+    </div>
+    """, unsafe_allow_html=True)
