@@ -464,6 +464,13 @@ def main():
     .main .block-container a {
         font-size: 16px !important;
     }
+    /* Protect TAF display from global font size overrides */
+    .main .block-container div[style*="font-size: 20px"] {
+        font-size: 20px !important;
+    }
+    .main .block-container div[style*="font-size: 20px"] * {
+        font-size: 20px !important;
+    }
     </style>
     """, unsafe_allow_html=True)
     
