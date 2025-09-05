@@ -54,6 +54,22 @@
       {"preferential": 5, "runway": "15R", "magnetic_direction": 150, "Note": ""}
     ]
   },
+  "KDFW": {
+    "magnetic_variation": 4.0,
+    "departure": [
+      {"preferential": 1, "runway": "18L", "magnetic_direction": 176, "Note": ""},
+      {"preferential": 2, "runway": "36R", "magnetic_direction": 356, "Note": ""},
+      {"preferential": 3, "runway": "17R", "magnetic_direction": 176, "Note": ""},
+      {"preferential": 4, "runway": "18R", "magnetic_direction": 176, "Note": ""}
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "18R", "magnetic_direction": 176, "Note": ""},
+      {"preferential": 2, "runway": "36L", "magnetic_direction": 356, "Note": ""},
+      {"preferential": 3, "runway": "13R", "magnetic_direction": 135, "Note": ""},
+      {"preferential": 4, "runway": "35C", "magnetic_direction": 356, "Note": ""},
+      {"preferential": 5, "runway": "17C", "magnetic_direction": 176, "Note": ""}
+    ]
+  },
   "KORD": {
     "magnetic_variation": -3.0,
     "departure": [
@@ -84,7 +100,10 @@
     "arrival": [
       {"preferential": 1, "runway": "15L", "magnetic_direction": 147, "Note": ""},
       {"preferential": 2, "runway": "33R", "magnetic_direction": 327, "Note": ""},
-      {"preferential": 3, "runway": "05", "magnetic_direction": 57, "Note": ""}
+      {"preferential": 3, "runway": "05", "magnetic_direction": 57, "Note": ""},
+      {"preferential": 4, "runway": "23", "magnetic_direction": 237, "Note": ""},
+      {"preferential": 5, "runway": "24L", "magnetic_direction": 237, "Note": ""},
+      {"preferential": 6, "runway": "06R", "magnetic_direction": 57, "Note": ""}
     ]
   },
   "YBBN": {
@@ -206,6 +225,7 @@
     ]
   }
 }
+
 
 
 
