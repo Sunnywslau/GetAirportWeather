@@ -48,7 +48,8 @@ def display_taf_info(taf_text):
 
     # Display the highlighted TAF with larger font size for wide screen
     st.markdown(f"""
-    <div style="font-size: 20px; line-height: 1.2; padding: 8px; background-color: #f8f9fa; border-radius: 8px; border-left: 4px solid #007acc; font-family: 'Courier New', monospace; margin: 5px 0;">
+    <div style="font-size: 18px; line-height: 1.2; padding: 8px; background-color: #f8f9fa; border-radius: 8px; border-left: 4px solid #007acc; font-family: 'Courier New', monospace; margin: 5px 0;">
         {highlighted_taf}
     </div>
     """, unsafe_allow_html=True)
+
