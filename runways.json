@@ -18,6 +18,26 @@
       {"preferential": 6,"runway": "25L", "magnetic_direction": 254, "Note": ""}
     ]
   },
+  "KJFK": {
+    "magnetic_variation": -13.0,
+    "departure": [
+      {"preferential": 1, "runway": "22R", "magnetic_direction": 224, "Note": ""},
+      {"preferential": 2, "runway": "31L", "magnetic_direction": 314, "Note": ""},
+      {"preferential": 3, "runway": "04L", "magnetic_direction": 44, "Note": ""},
+      {"preferential": 4, "runway": "13R", "magnetic_direction": 134, "Note": ""},
+      {"preferential": 5, "runway": "22L", "magnetic_direction": 224, "Note": ""}
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "22L", "magnetic_direction": 224, "Note": ""},
+      {"preferential": 2, "runway": "13L", "magnetic_direction": 134, "Note": ""},
+      {"preferential": 3, "runway": "04R", "magnetic_direction": 44, "Note": ""},
+      {"preferential": 4, "runway": "31R", "magnetic_direction": 314, "Note": ""},
+      {"preferential": 5, "runway": "22R", "magnetic_direction": 224, "Note": ""},
+      {"preferential": 6, "runway": "04L", "magnetic_direction": 44, "Note": ""},
+      {"preferential": 7, "runway": "13R", "magnetic_direction": 134, "Note": ""},
+      {"preferential": 8, "runway": "31L", "magnetic_direction": 314, "Note": ""}
+    ]
+  },
   "CYYZ": {
     "magnetic_variation": -10.0,
     "departure": [
@@ -151,6 +171,7 @@
     ]
   }
 }
+
 
 
 
