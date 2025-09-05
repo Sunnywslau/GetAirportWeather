@@ -38,6 +38,22 @@
       {"preferential": 8, "runway": "31L", "magnetic_direction": 314, "Note": ""}
     ]
   },
+  "KBOS": {
+    "magnetic_variation": -15.0,
+    "departure": [
+      {"preferential": 1, "runway": "15R", "magnetic_direction": 150, "Note": ""},
+      {"preferential": 2, "runway": "33L", "magnetic_direction": 330, "Note": ""},
+      {"preferential": 3, "runway": "04R", "magnetic_direction": 35, "Note": ""},
+      {"preferential": 4, "runway": "22L", "magnetic_direction": 215, "Note": ""}
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "22L", "magnetic_direction": 215, "Note": ""},
+      {"preferential": 2, "runway": "04R", "magnetic_direction": 35, "Note": ""},
+      {"preferential": 3, "runway": "27", "magnetic_direction": 272, "Note": ""},
+      {"preferential": 4, "runway": "33L", "magnetic_direction": 330, "Note": ""},
+      {"preferential": 5, "runway": "15R", "magnetic_direction": 150, "Note": ""}
+    ]
+  },
   "CYYZ": {
     "magnetic_variation": -10.0,
     "departure": [
@@ -171,6 +187,7 @@
     ]
   }
 }
+
 
 
 
