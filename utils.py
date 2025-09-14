@@ -13,6 +13,8 @@ def convert_local_to_utc(local_time, offset):
     return local_time - timedelta(hours=offset)
 
 def get_taf(airport_code):
-    url = f"https://aviationweather.gov/api/data/taf?ids={airport_code}&time=valid"
+    #url = f"https://aviationweather.gov/api/data/taf?ids={airport_code}&time=valid"
+    url = f"https://aviationweather.gov/api/data/taf?ids={airport_code}&&format=raw"
     response = requests.get(url)
+
     return response.text if response.text else f"No TAF found for {airport_code}"
