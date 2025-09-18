@@ -223,8 +223,75 @@
       {"preferential": 1, "runway": "22", "magnetic_direction": 220, "Note": ""},
       {"preferential": 2, "runway": "04", "magnetic_direction": 40, "Note": ""}
     ]
-  }
+  },
+ "EGLL": {
+    "magnetic_variation": 0.0,
+    "departure": [
+      {"preferential": 1, "runway": "27L", "magnetic_direction": 269, "Note": ""},
+      {"preferential": 2, "runway": "09L", "magnetic_direction": 89, "Note": ""},
+      {"preferential": 3, "runway": "27R", "magnetic_direction": 269, "Note": ""},
+      {"preferential": 4, "runway": "09R", "magnetic_direction": 89, "Note": ""}
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "09R", "magnetic_direction": 89, "Note": ""},
+      {"preferential": 2, "runway": "27L", "magnetic_direction": 269, "Note": ""},
+      {"preferential": 3, "runway": "27R", "magnetic_direction": 89, "Note": ""},
+      {"preferential": 4, "runway": "09L", "magnetic_direction": 269, "Note": ""}
+    ]
+  }, 
+  "LFPG": {
+    "magnetic_variation": 1.0,
+    "departure": [
+      {"preferential": 1, "runway": "26R", "magnetic_direction": 264, "Note": ""},
+      {"preferential": 2, "runway": "27L", "magnetic_direction": 264, "Note": ""},
+      {"preferential": 3, "runway": "08L", "magnetic_direction": 84, "Note": ""},
+      {"preferential": 4, "runway": "09R", "magnetic_direction": 84, "Note": ""},
+      {"preferential": 5, "runway": "27R", "magnetic_direction": 264, "Note": ""},
+      {"preferential": 6, "runway": "09L", "magnetic_direction": 84, "Note": ""}
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "27R", "magnetic_direction": 264, "Note": ""},
+      {"preferential": 2, "runway": "09L", "magnetic_direction": 84, "Note": ""},
+      {"preferential": 3, "runway": "09R", "magnetic_direction": 84, "Note": ""},
+      {"preferential": 4, "runway": "27L", "magnetic_direction": 264, "Note": ""},
+      {"preferential": 5, "runway": "26L", "magnetic_direction": 264, "Note": ""},
+      {"preferential": 6, "runway": "08R", "magnetic_direction": 84, "Note": ""}
+    ]
+  },
+ "EHAM": {
+    "magnetic_variation": 2.0,
+    "departure": [
+      {"preferential": 1, "runway": "36C", "magnetic_direction": 2, "Note": ""},
+      {"preferential": 2, "runway": "24", "magnetic_direction": 237, "Note": "Compute Takeoff Performance with TWY S7E"},
+      {"preferential": 3, "runway": "18L", "magnetic_direction": 182, "Note": ""},
+      {"preferential": 4, "runway": "36L", "magnetic_direction": 2, "Note": ""},
+      {"preferential": 5, "runway": "09", "magnetic_direction": 86, "Note": ""},
+      {"preferential": 6, "runway": "18C", "magnetic_direction": 182, "Note": ""}
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "18R", "magnetic_direction": 182, "Note": ""},
+      {"preferential": 2, "runway": "06", "magnetic_direction": 57, "Note": ""},
+      {"preferential": 3, "runway": "18C", "magnetic_direction": 182, "Note": ""},
+      {"preferential": 4, "runway": "36C", "magnetic_direction": 2, "Note": ""},
+      {"preferential": 5, "runway": "36R", "magnetic_direction": 2, "Note": ""}
+    ]
+  },
+  "EDDF": {
+    "magnetic_variation": 3.0,
+    "departure": [
+      {"preferential": 1, "runway": "18", "magnetic_direction": 177, "Note": ""},
+      {"preferential": 2, "runway": "07C", "magnetic_direction": 66, "Note": ""},
+      {"preferential": 3, "runway": "25C", "magnetic_direction": 246, "Note": ""}
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "25L", "magnetic_direction": 246, "Note": ""},
+      {"preferential": 2, "runway": "07R", "magnetic_direction": 66, "Note": ""},
+      {"preferential": 3, "runway": "25R", "magnetic_direction": 246, "Note": "RWY Length 9186ft"},
+      {"preferential": 4, "runway": "07L", "magnetic_direction": 66, "Note": "RWY Length 9186ft"}
+    ]
+  } 
 }
+
 
 
 
