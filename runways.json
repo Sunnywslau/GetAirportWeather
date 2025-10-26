@@ -3,7 +3,7 @@
     "magnetic_variation": -3,
     "departure": [
       {"preferential": 1, "runway": "07R", "magnetic_direction": 74, "Note": "RWY07 preferred btw 2301 to 0700 LT"},
-      {"preferential": 2, "runway": "07C", "magnetic_direction": 74, "Note": "RWY07 preferred btw 2301 to 0700 LT"},
+      {"preferential": 2, "runway": "07C", "magnetic_direction": 74, "Note": "RWY07 preferred btw 2301 to 0700 LT, Takeoff Performance restricted due OBS"},
       {"preferential": 3, "runway": "07L", "magnetic_direction": 74, "Note": "RWY07 preferred btw 2301 to 0700 LT"},
       {"preferential": 4,"runway": "25R", "magnetic_direction": 254, "Note": ""},
       {"preferential": 5,"runway": "25C", "magnetic_direction": 254, "Note": ""},
@@ -360,6 +360,7 @@
     ]
   } 
 }
+
 
 
 
