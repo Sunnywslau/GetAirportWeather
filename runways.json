@@ -339,11 +339,11 @@
       {"preferential": 1, "runway": "24R", "magnetic_direction": 244, "Note": ""},
       {"preferential": 2, "runway": "24L", "magnetic_direction": 244, "Note": "Short RWY"},
       {"preferential": 3, "runway": "06L", "magnetic_direction": 64, "Note": ""},
-      {"preferential": 3, "runway": "06R", "magnetic_direction": 64, "Note": "Short RWY"}
+      {"preferential": 4, "runway": "06R", "magnetic_direction": 64, "Note": "Short RWY"}
     ],
     "arrival": [
       {"preferential": 1, "runway": "24R", "magnetic_direction": 244, "Note": ""},
-      {"preferential": 3, "runway": "06L", "magnetic_direction": 64, "Note": ""}
+      {"preferential": 2, "runway": "06L", "magnetic_direction": 64, "Note": ""}
     ]
   },
   "LEMD": {
@@ -352,14 +352,15 @@
       {"preferential": 1, "runway": "36L", "magnetic_direction": 360, "Note": ""},
       {"preferential": 2, "runway": "36R", "magnetic_direction": 360, "Note": ""},
       {"preferential": 3, "runway": "14R", "magnetic_direction": 143, "Note": ""},
-      {"preferential": 3, "runway": "14L", "magnetic_direction": 143, "Note": ""}
+      {"preferential": 4, "runway": "14L", "magnetic_direction": 143, "Note": ""}
     ],
     "arrival": [
       {"preferential": 1, "runway": "32R", "magnetic_direction": 323, "Note": ""},
-      {"preferential": 3, "runway": "18L", "magnetic_direction": 180, "Note": ""}
+      {"preferential": 2, "runway": "18L", "magnetic_direction": 180, "Note": ""}
     ]
   } 
 }
+
 
 
 
