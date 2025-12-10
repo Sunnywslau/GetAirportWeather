@@ -50,8 +50,10 @@
     {"airport": "NZAA", "code": "2193733", "UTC_to_LTC": 13},
     {"airport": "EBBR", "code": "2800866", "UTC_to_LTC": 1},
     {"airport": "EDDM", "code": "3208399", "UTC_to_LTC": 1},
-    {"airport": "ZWWW", "code": "1529102", "UTC_to_LTC": 8}
+    {"airport": "ZWWW", "code": "1529102", "UTC_to_LTC": 8},
+    {"airport": "NZCH", "code": "6220393", "UTC_to_LTC": 13}
 ]
+
 
 
 
