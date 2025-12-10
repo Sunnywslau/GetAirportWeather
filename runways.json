@@ -369,26 +369,16 @@
       {"preferential": 1, "runway": "15", "magnetic_direction": 149, "Note": "Expected RWY"},
       {"preferential": 2, "runway": "33", "magnetic_direction": 329, "Note": ""}
     ]
+  },
+  "NZCH": {
+    "magnetic_variation": 25.0,
+    "departure": [
+      {"preferential": 1, "runway": "02", "magnetic_direction": 196, "Note": ""},
+      {"preferential": 2, "runway": "20", "magnetic_direction": 16, "Note": ""}
+    ],
+    "arrival": [
+      {"preferential": 1, "runway": "02", "magnetic_direction": 196, "Note": ""},
+      {"preferential": 2, "runway": "20", "magnetic_direction": 16, "Note": ""}
+    ]
   } 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
