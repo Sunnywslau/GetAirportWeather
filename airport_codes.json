@@ -42,7 +42,7 @@
     {"airport": "KORD", "code": "4930956", "UTC_to_LTC": -6},
     {"airport": "KDFW", "code": "4684943", "UTC_to_LTC": -6},
     {"airport": "KBOS", "code": "4930956", "UTC_to_LTC": -5},
-    {"airport": "YSSY", "code": "2147714", "UTC_to_LTC": 11},
+    {"airport": "YSSY", "code": "2208268", "UTC_to_LTC": 11},
     {"airport": "YMML", "code": "2158177", "UTC_to_LTC": 11},
     {"airport": "YBBN", "code": "2174003", "UTC_to_LTC": 10},
     {"airport": "YBCS", "code": "2207387", "UTC_to_LTC": 10},
@@ -53,6 +53,7 @@
     {"airport": "ZWWW", "code": "1529102", "UTC_to_LTC": 8},
     {"airport": "NZCH", "code": "6220393", "UTC_to_LTC": 13}
 ]
+
 
 
 
