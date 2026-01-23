@@ -546,12 +546,12 @@ def main():
                 return
             
             try:
-                current_utc_time = datetime.utcnow()
+                current_utc_time = datetime.now(timezone.utc)
                 input_time = datetime.strptime(utc_input, "%H%M")
                 
                 # Create the full UTC datetime
                 target_time = datetime(current_utc_time.year, current_utc_time.month, current_utc_time.day,
-                                       input_time.hour, input_time.minute)
+                                       input_time.hour, input_time.minute, tzinfo=timezone.utc)
 
                 if target_time < current_utc_time:
                     target_time += timedelta(days=1)  # Input time has already passed today
@@ -560,6 +560,8 @@ def main():
 
                 if weather_data:
                     local_time = convert_utc_to_local(target_time, utc_offset)
+                    # Convert to naive datetime for comparison with report times
+                    local_time = local_time.replace(tzinfo=None) if local_time.tzinfo else local_time
                     location_name = weather_data['location']['name']
                     
                     # Handle different formats for last update time
@@ -846,7 +848,7 @@ def main():
                             by_label = dict(zip(labels, handles))
                             ax1.legend(by_label.values(), by_label.keys(), fontsize=7)
                             plt.tight_layout()
-                            st.pyplot(fig, width='content')
+                            st.pyplot(fig)
 
                         # Temperature Plot in third column
                         with info_col3:
@@ -876,7 +878,7 @@ def main():
                             by_label = dict(zip(labels, handles))
                             ax2.legend(by_label.values(), by_label.keys(), fontsize=7)
                             plt.tight_layout()
-                            st.pyplot(fig, width='content')
+                            st.pyplot(fig)
 
                         # Display Preferential Runway section
                         display_preferential_runway_section(airport_code, utc_input)
