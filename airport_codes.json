@@ -34,6 +34,7 @@
     {"airport": "MMGL", "code": "4005539", "UTC_to_LTC": -6},
     {"airport": "MMSM", "code": "3530597", "UTC_to_LTC": -6},
     {"airport": "FAOR", "code": "993800", "UTC_to_LTC": 2},
+    {"airport": "KSEA", "code": "5809876", "UTC_to_LTC": -7}
     {"airport": "KORD", "code": "4887479", "UTC_to_LTC": -6},
     {"airport": "KDFW", "code": "4684888", "UTC_to_LTC": -6},
     {"airport": "KIAH", "code": "4693268", "UTC_to_LTC": -6},
