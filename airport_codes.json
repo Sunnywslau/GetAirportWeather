@@ -27,7 +27,7 @@
     {"airport": "PANC", "code": "5879378", "UTC_to_LTC": -9},   
     {"airport": "KLAX", "code": "5368361", "UTC_to_LTC": -8},
     {"airport": "KSFO", "code": "5391959", "UTC_to_LTC": -8},
-    {"airport": "CYVR", "code": "6301485", "UTC_to_LTC": -8},
+    {"airport": "CYVR", "code": "6301485", "UTC_to_LTC": -7},
     {"airport": "KPDX", "code": "5746563", "UTC_to_LTC": -8},
     {"airport": "KJFK", "code": "5122732", "UTC_to_LTC": -5},
     {"airport": "CYYZ", "code": "6296338", "UTC_to_LTC": -5},
